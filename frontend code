@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Stock Portfolio Evaluator</title>
+  <style>
+    body { font-family: Arial; padding: 20px; max-width: 600px; margin: auto; }
+    textarea { width: 100%; height: 150px; margin-top: 10px; }
+    button { margin-top: 10px; padding: 10px 15px; }
+    #output { margin-top: 20px; white-space: pre-line; }
+  </style>
+</head>
+<body>
+
+  <h2>📈 Portfolio Evaluation AI</h2>
+  <p>Paste your stock portfolio description below:</p>
+
+  <textarea id="portfolioInput" placeholder="E.g., My portfolio includes AAPL and MSFT..."></textarea>
+  <br>
+  <button onclick="evaluatePortfolio()">Evaluate</button>
+
+  <div id="output"></div>
+
+  <script>
+    function evaluatePortfolio() {
+      const text = document.getElementById("portfolioInput").value.toLowerCase();
+      
+      const diversification = ["technology", "finance", "healthcare", "real estate", "energy"];
+      const risk = ["stop loss", "volatility", "beta", "hedge"];
+      const analysis = ["pe ratio", "moving average", "rsi", "macd", "fundamentals", "technical"];
+      const popular = ["aapl", "msft", "googl", "tsla", "amzn", "spy", "qqq"];
+
+      let output = "📊 Portfolio Feedback:\n";
+
+      function checkMissing(list, label) {
+        const missing = list.filter(item => !text.includes(item));
+        if (missing.length > 0) {
+          output += `- Add or mention ${label}: ${missing.join(", ")}\n`;
+        }
+      }
+
+      checkMissing(diversification, "diversification (sectors)");
+      checkMissing(risk, "risk controls");
+      checkMissing(analysis, "analysis methods");
+      checkMissing(popular, "popular tickers");
+
+      if (output === "📊 Portfolio Feedback:\n") {
+        output += "✅ Your portfolio looks well-rounded!";
+      }
+
+      document.getElementById("output").innerText = output;
+    }
+  </script>
+
+</body>
+</html>
