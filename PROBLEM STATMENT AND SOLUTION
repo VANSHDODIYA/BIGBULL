@@ -1,0 +1,10 @@
+PROBLEM STATEMNET :-
+Many retail investors build stock portfolios without a structured approach to diversification, risk management, or fundamental analysis. As a result, their investments may be overexposed to certain sectors, vulnerable to market volatility, or lack long-term stability. Existing tools are often complex or lack personalized insights tailored to small investors.
+SOLUTION :-
+We propose an AI-based Stock Portfolio Evaluation Assistant that analyzes a user’s portfolio description or holdings and provides:
+Feedback on sector diversification
+Risk factor identification (e.g., lack of stop-loss or volatility awareness)
+Insights on missing fundamental or technical analysis technique
+Suggestions for stock inclusion based on current trends and indices
+The tool uses Natural Language Processing (NLP) to parse portfolio inputs and highlight strengths and gaps, providing actionable suggestions to help investors build more balanced and resilient portfolios.
+
