@@ -1,2 +1,2 @@
 # BIGBULL
-A PORTFOLIO EVALUATION AI WHICH HELPS TO MAKE PORTFOLIO BETTER
+AI-Powered Portfolio Evaluation and Enhancement Tool
