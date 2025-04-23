@@ -1,29 +1,121 @@
+from IPython.display import display, HTML, Javascript
+import ipywidgets as widgets
+
 # Important terms for a healthy stock portfolio
 diversification = ["technology", "finance", "healthcare", "real estate", "energy"]
 risk_management = ["stop loss", "volatility", "beta", "hedge"]
 analysis = ["pe ratio", "moving average", "rsi", "macd", "fundamentals", "technical"]
 popular_stocks = ["aapl", "msft", "googl", "tsla", "amzn", "spy", "qqq"]
 
-# Get portfolio input
-text = input("Paste your stock portfolio description or strategy:\n").lower()
+# HTML content
+html_content = """
+<html>
+<head>
+  <title>Stock Portfolio Evaluator</title>
+  <style>
+    body { font-family: Arial; padding: 20px; max-width: 600px; margin: auto; }
+    textarea { width: 100%; height: 150px; margin-top: 10px; }
+    button { margin-top: 10px; padding: 10px 15px; }
+    #output { margin-top: 20px; white-space: pre-line; }
+  </style>
+</head>
+<body>
 
-# Check for missing elements
-missing_diversification = [term for term in diversification if term not in text]
-missing_risk = [term for term in risk_management if term not in text]
-missing_analysis = [term for term in analysis if term not in text]
-missing_popular = [stock for stock in popular_stocks if stock not in text]
+  <h2>📈 Portfolio Evaluation AI</h2>
+  <p>Paste your stock portfolio description below:</p>
 
-# Show suggestions
-print("\n📊 Portfolio Feedback:")
+  <textarea id="portfolioInput" placeholder="E.g., My portfolio includes AAPL and MSFT..."></textarea>
+  <br>
+  <button onclick="evaluatePortfolio()">Evaluate</button>
 
-if missing_diversification:
-    print("- Consider adding exposure to:", ", ".join(missing_diversification))
-if missing_risk:
-    print("- Mention risk controls like:", ", ".join(missing_risk))
-if missing_analysis:
-    print("- Add some analysis methods like:", ", ".join(missing_analysis))
-if missing_popular:
-    print("- Your portfolio doesn't include major tickers like:", ", ".join(missing_popular))
+  <div id="output"></div>
 
-if not (missing_diversification or missing_risk or missing_analysis or missing_popular):
-    print("✅ Your portfolio description looks well-rounded!")
+  <script>
+    function evaluatePortfolio() {
+      const text = document.getElementById("portfolioInput").value.toLowerCase();
+      
+      const diversification = ["technology", "finance", "healthcare", "real estate", "energy"];
+      const risk = ["stop loss", "volatility", "beta", "hedge"];
+      const analysis = ["pe ratio", "moving average", "rsi", "macd", "fundamentals", "technical"];
+      const popular = ["aapl", "msft", "googl", "tsla", "amzn", "spy", "qqq"];
+
+      let output = "📊 Portfolio Feedback:\\n";
+
+      function checkMissing(list, label) {
+        const missing = list.filter(item => !text.includes(item));
+        if (missing.length > 0) {
+          output += `- Add or mention ${label}: ${missing.join(", ")}\\n`;
+        }
+      }
+
+      checkMissing(diversification, "diversification (sectors)");
+      checkMissing(risk, "risk controls");
+      checkMissing(analysis, "analysis methods");
+      checkMissing(popular, "popular tickers");
+
+      if (output === "📊 Portfolio Feedback:\\n") {
+        output += "✅ Your portfolio looks well-rounded!";
+      }
+
+      document.getElementById("output").innerText = output;
+    }
+  </script>
+
+</body>
+</html>
+"""
+
+# Display the HTML content
+display(HTML(html_content))
+
+# Now let's create a function to evaluate the portfolio from Colab
+def evaluate_portfolio(text):
+    text = text.lower()
+
+    # Check for missing elements
+    missing_diversification = [term for term in diversification if term not in text]
+    missing_risk = [term for term in risk_management if term not in text]
+    missing_analysis = [term for term in analysis if term not in text]
+    missing_popular = [stock for stock in popular_stocks if stock not in text]
+
+    # Prepare output
+    output = "📊 Portfolio Feedback:\n"
+
+    def check_missing(list, label):
+        missing = [item for item in list if item not in text]
+        if missing:
+            return f"- Add or mention {label}: {', '.join(missing)}\n"
+        return ""
+
+    output += check_missing(diversification, "diversification (sectors)")
+    output += check_missing(risk_management, "risk controls")
+    output += check_missing(analysis, "analysis methods")
+    output += check_missing(popular_stocks, "popular tickers")
+
+    if not (missing_diversification or missing_risk or missing_analysis or missing_popular):
+        output += "✅ Your portfolio looks well-rounded!"
+
+    return output
+
+# Widget for user input
+portfolio_input = widgets.Textarea(
+    description='Portfolio:',
+    placeholder='Paste your stock portfolio description here...',
+    layout=widgets.Layout(width='80%', height='100px')
+)
+
+# Display the widget
+display(portfolio_input)
+
+# Function to display evaluation result
+def on_button_click(b):
+    result = evaluate_portfolio(portfolio_input.value)
+    print(result)
+
+# Button to trigger evaluation
+button = widgets.Button(description="Evaluate Portfolio")
+button.on_click(on_button_click)
+
+# Display button
+display(button)
+
