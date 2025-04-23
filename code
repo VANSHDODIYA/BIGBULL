@@ -1,0 +1,29 @@
+# Important terms for a healthy stock portfolio
+diversification = ["technology", "finance", "healthcare", "real estate", "energy"]
+risk_management = ["stop loss", "volatility", "beta", "hedge"]
+analysis = ["pe ratio", "moving average", "rsi", "macd", "fundamentals", "technical"]
+popular_stocks = ["aapl", "msft", "googl", "tsla", "amzn", "spy", "qqq"]
+
+# Get portfolio input
+text = input("Paste your stock portfolio description or strategy:\n").lower()
+
+# Check for missing elements
+missing_diversification = [term for term in diversification if term not in text]
+missing_risk = [term for term in risk_management if term not in text]
+missing_analysis = [term for term in analysis if term not in text]
+missing_popular = [stock for stock in popular_stocks if stock not in text]
+
+# Show suggestions
+print("\n📊 Portfolio Feedback:")
+
+if missing_diversification:
+    print("- Consider adding exposure to:", ", ".join(missing_diversification))
+if missing_risk:
+    print("- Mention risk controls like:", ", ".join(missing_risk))
+if missing_analysis:
+    print("- Add some analysis methods like:", ", ".join(missing_analysis))
+if missing_popular:
+    print("- Your portfolio doesn't include major tickers like:", ", ".join(missing_popular))
+
+if not (missing_diversification or missing_risk or missing_analysis or missing_popular):
+    print("✅ Your portfolio description looks well-rounded!")
